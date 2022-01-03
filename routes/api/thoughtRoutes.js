@@ -10,7 +10,7 @@ const {
 
 router.route('/').get(getThoughts).post(createThought);
 
-router.route('/:userId').get(getSingleThought);
+router.route('/:thoughtId').get(getSingleThought);
 
 router.route('/:thoughtId/:thoughtText').put(updateThought);
 

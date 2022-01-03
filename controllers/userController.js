@@ -21,4 +21,13 @@ module.exports = {
       .then((dbUserData) => res.json(dbUserData))
       .catch((err) => res.status(500).json(err));
   },
+  updateUser(req, res) {
+    User.findOneAndUpdate(
+        { _id: req.params.userId },
+        { username: req.params.newUsername },
+        { new: true }
+      )
+      .then (user => res.status(200).json(user))
+      .catch((err) => res.status(500).json(err));
+  },
 };
