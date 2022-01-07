@@ -12,7 +12,12 @@ const userSchema = new Schema(
         type: String,
         unique: true,
         required: true,
-        trim: true,
+        validate: {
+          validator: function(v) {
+              return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v);
+          },
+          message: "Please enter a valid email"
+      },
     },
     thoughts: [
       {
