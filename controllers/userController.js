@@ -1,8 +1,10 @@
 const User = require('../models/User');
+const Thought = require('../models/Thought');
 
 module.exports = {
   getUsers(req, res) {
     User.find()
+      .select('-__v')
       .then((users) => res.json(users))
       .catch((err) => res.status(500).json(err));
   },
@@ -16,7 +18,10 @@ module.exports = {
           ? res.status(404).json({ message: 'No user with that ID' })
           : res.json(user)
       )
-      .catch((err) => res.status(500).json(err));
+      .catch((err) => {
+        res.status(500).json(err)
+        console.log(err)
+      });
   },
   createUser(req, res) {
     User.create(req.body)
@@ -29,6 +34,7 @@ module.exports = {
         { $set: req.body },
         { runValidators: true, new: true }
       )
+      .select('-__v')
       .then((user) =>
         !user
           ? res.status(404).json({ message: 'No user with this id!' })
@@ -37,15 +43,20 @@ module.exports = {
       .catch((err) => res.status(500).json(err));
   },
   deleteUser(req, res) {
-    User.findOneAndDelete({ _id: req.params.userId }, (err, result) => {
-        if (result) {
-          res.status(200).json(result);
-          console.log(`Deleted: ${result}`);
-        } else {
-          console.log('Uh Oh, something went wrong');
-          res.status(500).json({ message: 'something went wrong' });
-        }
-      });
+    User.findOneAndDelete({ _id: req.params.userId })
+      .then((user) =>
+        !user
+          ? res.status(404).json({ message: 'No user with this id!' })
+          : Thought.deleteMany({ username: user.username })
+      )
+      .then((thought) =>
+        !thought
+          ? res
+              .status(404)
+              .json({ message: 'User deleted but no user thought this id!' })
+          : res.json({ message: 'User successfully deleted!' })
+      )
+      .catch((err) => res.status(500).json(err));
   },
   addFriend(req, res) {
     User.findOneAndUpdate(
@@ -63,7 +74,7 @@ module.exports = {
   removeFriend(req, res) {
     User.findOneAndUpdate(
       { _id: req.params.userId },
-      { $pull: { friends: { friendId: req.params.friendId } } },
+      { $pull: { friends: req.params.friendId } },
       { runValidators: true, new: true }
     )
       .then((user) =>
