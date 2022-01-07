@@ -14,14 +14,21 @@ const reactionSchema = new Schema(
     },
     createdAt: {
         type: Date,
-        default: Date.now,
+        default: Date.now().toString(),
         get: formatTime,
+    }
+  },
+  {
+    toJSON: {
+      getters:true,
     }
   }
 );
 
-function formatTime(date) {
-  return new Date(date).toString();
+function formatTime(time) {
+  let created = new Date(time)
+  let formatted = created.toLocaleString("en-US")
+  return formatted
 }
 
 module.exports = reactionSchema

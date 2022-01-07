@@ -24,12 +24,17 @@ const thoughtSchema = new Schema(
     toJSON: {
       virtuals: true,
     },
+    toJSON: {
+      getters:true,
+    },
     id: false,
   }
 );
 
-function formatTime(date) {
-  return new Date(date).toString();
+function formatTime(time) {
+  let created = new Date(time)
+  let formatted = created.toLocaleString("en-US")
+  return formatted
 }
 
 thoughtSchema
