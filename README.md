@@ -27,4 +27,4 @@ Mongo-Social-Media provides a NoSql database for your social media platform.
 If you'd like to see a walk-through video on how to use this program, click here: https://drive.google.com/file/d/1bkCVMH4lKXjEkIWDNPKzbX78Q1Rfj3Qq/view?usp=sharing
 
 Screenshot:  
-<img src="./assets/images/Screenshot.png">
+<img src="./assets/images/ScreenShot.png">
