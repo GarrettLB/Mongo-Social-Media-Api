@@ -7,11 +7,11 @@ Mongo-Social-Media provides a NoSql database for your social media platform.
 * Add new users and thoughts.
 * Individual users and thoughts can be called by Id.
 * All entries in the database can be easily updated or deleted by Id.
-
+-
 * Thoughts use a "username" field to automatically link to a user.
 * Each thought has a "reactions" property where reactions to the thought can be posted.
 * Each thought has a "reactionCount" property that returns a count of how many reactions have been posted to the thought.
-
+-
 * Users have a friends list referencing other users.
 * Each user has a "friendCount" property that returns a count of how many friends the user has.
 * When a user is Deleted, all it's associated thoughts are also deleted.
